@@ -4,9 +4,7 @@ from aws_cdk import pipelines as pipelines
 from aws_cdk.pipelines import CodePipelineSource
 from constructs import Construct
 from infra.stages.deploy import DeployStage
-from lambda_forge import context
-from infra.steps import Steps
-
+from lambda_forge import context, CodeBuildSteps
 
 @context(stage="Dev", resources="dev")
 class DevStack(cdk.Stack):
@@ -33,7 +31,7 @@ class DevStack(cdk.Stack):
             pipeline_name=f"{context.stage}-{context.name}-Pipeline",
         )
         
-        steps = Steps(self, context, source)
+        steps = CodeBuildSteps(self, context, source)
 
         # post
         swagger = steps.swagger()
